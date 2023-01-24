@@ -50,6 +50,7 @@ public class ListController {
     @FXML
     void initialize() throws SQLException {
         tasks = FXCollections.observableArrayList();
+
         databaseHandler = new DatabaseHandler();
         ResultSet myResult = databaseHandler.getTasksByUser(AddItemController.userId);
 
@@ -78,6 +79,7 @@ public class ListController {
             Task myNewTask = new Task();
             myNewTask.setTask(listTaskField.getText().trim());
             myNewTask.setDescription(listDescriptionField.getText().trim());
+            myNewTask.setUserId(AddItemController.userId);
 
             LocalDateTime localDateTime = LocalDateTime.now();
             Timestamp timestamp = Timestamp.valueOf(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -87,6 +89,14 @@ public class ListController {
 
             listTaskField.setText("");
             listDescriptionField.setText("");
+
+            tasks.add(0,myNewTask);
+            try {
+                initialize();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 }

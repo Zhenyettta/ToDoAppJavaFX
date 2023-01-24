@@ -4,6 +4,7 @@ import app.model.Task;
 import app.model.User;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class DatabaseHandler extends Configs {
     Connection dbConnection;
@@ -114,4 +115,21 @@ public class DatabaseHandler extends Configs {
             throw new RuntimeException(e);
         }
     }
+
+    public int getAllTasksForToday(int userid) throws SQLException {
+        String query = "SELECT COUNT(*) FROM " + Const.TASKS_TABLE + " WHERE " + Const.USERS_ID + "=?" + " AND " + Const.TASKS_DATE + ">=?";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setInt(1, userid);
+        preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));  //Minus plus
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+        return resultSet.getInt(1);
+    }
+
+
 }

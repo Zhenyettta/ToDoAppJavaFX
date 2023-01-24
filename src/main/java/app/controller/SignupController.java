@@ -3,13 +3,18 @@ package app.controller;
 import app.database.DatabaseHandler;
 import app.model.User;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -56,10 +61,25 @@ public class SignupController {
         AtomicBoolean checkFemale = new AtomicBoolean(true);
 
 
-        signUpButton.setOnAction(event -> createUser());
+        signUpButton.setOnAction(event -> {
+            createUser();
+
+            signUpButton.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/app/view/login.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.show();
+
+        });
         checkBoxes(checkMale, signUpCheckBoxMale, signUpCheckBoxFemale);
         checkBoxes(checkFemale, signUpCheckBoxFemale, signUpCheckBoxMale);
-        
 
 
     }
@@ -100,12 +120,12 @@ public class SignupController {
             pane1.getChildren().add(imageView1);
 
 
-
         } else {
 
             User user = new User(name, lastName, userName, password, location, gender);
             databaseHandler.signUpUser(user);
         }
     }
+
 
 }

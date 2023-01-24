@@ -1,17 +1,21 @@
 package app.controller;
 
 import app.animations.Shaker;
+import app.database.DatabaseHandler;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -31,11 +35,29 @@ public class AddItemController {
 
     @FXML
     private AnchorPane rootAnchorPane;
+    @FXML
+    private ImageView viewTasksButton;
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException {
+        getTaskCount();
+        viewTasksButton.setOnMouseClicked(event -> {
+            viewTasksButton.getScene().getWindow().hide();
 
-        addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/app/view/list.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.show();
+        });
+
+        addButton.setOnMouseClicked(event ->
         {
             Shaker buttonShaker = new Shaker(addButton);
             buttonShaker.shake();
@@ -85,6 +107,14 @@ public class AddItemController {
 
     }
 
+    private void getTaskCount() throws SQLException {
+        DatabaseHandler databaseHandler = new DatabaseHandler();
+        int count = databaseHandler.getAllTasksForToday(userId);
+        if (count != 0) {
+            noTaskLabel.setText("You have " + count + " tasks");
+        }
+    }
+
     public int getUserId() {
         return userId;
     }
@@ -92,4 +122,6 @@ public class AddItemController {
     public void setUserId(int userId) {
         AddItemController.userId = userId;
     }
+
+
 }
