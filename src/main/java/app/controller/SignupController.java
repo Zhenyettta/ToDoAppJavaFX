@@ -1,18 +1,16 @@
 package app.controller;
 
 import app.database.DatabaseHandler;
-import app.models.User;
+import app.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 

@@ -64,7 +64,7 @@ public class AddItemController {
             labelTransition.play();
 
             try {
-                AnchorPane formPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/app/addItemForm.fxml")));
+                AnchorPane formPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/app/view/addItemForm.fxml")));
 
                 AddItemController.userId = getUserId();
 

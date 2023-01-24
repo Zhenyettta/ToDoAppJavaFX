@@ -1,9 +1,7 @@
 package app.database;
 
-import app.controller.LoginController;
-import app.models.Task;
-import app.models.User;
-import javafx.fxml.FXMLLoader;
+import app.model.Task;
+import app.model.User;
 
 import java.sql.*;
 
@@ -16,7 +14,19 @@ public class DatabaseHandler extends Configs {
         return dbConnection;
     }
 
-    //Write
+
+    public void deleteTask(int userId, int taskId) {
+        String query = "DELETE FROM " + Const.TASKS_TABLE + " WHERE " + Const.USERS_ID + "=?" + " AND " + Const.TASKS_ID + "=?";
+        try {
+            PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, taskId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void signUpUser(User user) {
         String insert = "INSERT into " + Const.USERS_TABLE + "(" + Const.USERS_FIRSTNAME + ","
                 + Const.USERS_LASTNAME + "," + Const.USERS_USERNAME + ","
@@ -38,6 +48,22 @@ public class DatabaseHandler extends Configs {
         }
     }
 
+    public ResultSet getTasksByUser(int userId) {
+        ResultSet resultTasks = null;
+        String query = "SELECT * FROM " + Const.TASKS_TABLE + " WHERE "
+                + Const.USERS_ID + "=?" + " ORDER BY " + Const.TASKS_DATE + " DESC";
+        try {
+            PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            resultTasks = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+
+        return resultTasks;
+    }
+
     public ResultSet getUser(User user) {
         ResultSet resultSet = null;
         String query = "SELECT * FROM " + Const.USERS_TABLE + " WHERE "
@@ -56,6 +82,18 @@ public class DatabaseHandler extends Configs {
         return resultSet;
     }
 
+    public int getAllTasks(int userid) throws SQLException {
+        String query = "SELECT COUNT(*) FROM " + Const.TASKS_TABLE + " WHERE " + Const.USERS_ID + "=?";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setInt(1, userid);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+        return resultSet.getInt(1);
+    }
 
     public void insertTask(Task task) {
 
@@ -75,8 +113,5 @@ public class DatabaseHandler extends Configs {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
-
-
 }

@@ -1,17 +1,20 @@
-package app.models;
+package app.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 public class Task {
     private int userId;
+    private int taskId;
+
+
     private Timestamp dateCreated;
     private String description;
     private String task;
 
+    public Task() {
+    }
 
-
-    public Task(int userId,Timestamp dateCreated, String description, String task) {
+    public Task(int userId, Timestamp dateCreated, String description, String task) {
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.description = description;
@@ -21,6 +24,7 @@ public class Task {
     public Timestamp getDateCreated() {
         return dateCreated;
     }
+
     public int getUserId() {
         return userId;
     }
@@ -47,5 +51,13 @@ public class Task {
 
     public void setTask(String task) {
         this.task = task;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 }

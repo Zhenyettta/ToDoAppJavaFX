@@ -2,7 +2,7 @@ package app.controller;
 
 import app.animations.Shaker;
 import app.database.DatabaseHandler;
-import app.models.User;
+import app.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -81,7 +82,7 @@ public class LoginController {
             loginSignUpButton.getScene().getWindow().hide(); //I can use it on any item
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/app/signup.fxml"));
+            loader.setLocation(getClass().getResource("/app/view/signup.fxml"));
 
             try {
                 loader.load();
@@ -92,6 +93,7 @@ public class LoginController {
             Parent parent = loader.getRoot();
             Stage stage = new Stage();
             stage.setScene(new Scene(parent));
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/app/assets/todo_icon.png"))));
 
             stage.showAndWait();
         });
@@ -101,7 +103,7 @@ public class LoginController {
         loginSignUpButton.getScene().getWindow().hide(); //I can use it on any item
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/app/addItem.fxml"));
+        loader.setLocation(getClass().getResource("/app/view/addItem.fxml"));
 
         try {
             loader.load();
