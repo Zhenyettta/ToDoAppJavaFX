@@ -6,9 +6,10 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #d32f2f;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.todoappjavafx.controller.SignupController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #d32f2f;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.SignupController">
    <children>
       <AnchorPane layoutY="68.0" prefHeight="332.0" prefWidth="700.0" style="-fx-background-color: #ffffff;">
          <children>
@@ -24,11 +25,13 @@
             <TextField fx:id="signUpFirstName" layoutX="221.0" layoutY="53.0" prefHeight="25.0" prefWidth="281.0" promptText="First Name" style="-fx-border-color: #d32f2f;" />
             <TextField fx:id="signUpLastName" layoutX="221.0" layoutY="91.0" prefHeight="25.0" prefWidth="281.0" promptText="Last Name" style="-fx-border-color: #d32f2f;" />
             <TextField fx:id="signUpUsername" layoutX="221.0" layoutY="131.0" prefHeight="25.0" prefWidth="281.0" promptText="Username" style="-fx-border-color: #d32f2f;" />
-            <TextField fx:id="signUpLocation" layoutX="221.0" layoutY="234.0" prefHeight="25.0" prefWidth="281.0" promptText="Location" style="-fx-border-color: #d32f2f;" />
-            <CheckBox fx:id="signUpCheckBoxFemale" layoutX="362.0" layoutY="205.0" mnemonicParsing="false" text="Female" />
-            <CheckBox fx:id="signUpCheckBoxMale" layoutX="302.0" layoutY="205.0" mnemonicParsing="false" text="Male" />
             <PasswordField fx:id="signUpPassword" layoutX="221.0" layoutY="170.0" prefHeight="25.0" prefWidth="281.0" promptText="Password" style="-fx-border-color: #d32f2f;" />
+            <CheckBox fx:id="signUpCheckBoxMale" layoutX="302.0" layoutY="205.0" mnemonicParsing="false" text="Male" />
+            <CheckBox fx:id="signUpCheckBoxFemale" layoutX="362.0" layoutY="205.0" mnemonicParsing="false" text="Female" />
+            <TextField fx:id="signUpLocation" layoutX="221.0" layoutY="234.0" prefHeight="25.0" prefWidth="281.0" promptText="Location" style="-fx-border-color: #d32f2f;" />
             <Button fx:id="signUpButton" layoutX="274.0" layoutY="280.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="152.0" style="-fx-background-color: #424242;" text="Sign up" textFill="WHITE" />
+            <Pane fx:id="pane" layoutX="83.0" layoutY="117.0" prefHeight="133.0" prefWidth="138.0" AnchorPane.leftAnchor="83.0" />
+            <Pane fx:id="pane1" layoutX="522.0" layoutY="92.0" prefHeight="133.0" prefWidth="138.0" />
          </children>
       </AnchorPane>
       <Label alignment="CENTER" layoutX="277.0" layoutY="14.0" prefHeight="36.0" prefWidth="146.0" text="2DO" textAlignment="CENTER" textFill="WHITE">

@@ -1,4 +1,4 @@
-package app.todoappjavafx.database;
+package app.database;
 
 public class Const {
 

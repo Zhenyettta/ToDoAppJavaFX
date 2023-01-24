@@ -4,8 +4,8 @@ module app.todoappjavafx {
     requires java.sql;
 
 
-    opens app.todoappjavafx to javafx.fxml;
-    exports app.todoappjavafx;
-    exports app.todoappjavafx.controller;
-    opens app.todoappjavafx.controller to javafx.fxml;
+    opens app to javafx.fxml;
+    exports app;
+    exports app.controller;
+    opens app.controller to javafx.fxml;
 }
