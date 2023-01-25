@@ -2,7 +2,6 @@ package app.animations;
 
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 public class Shaker {
