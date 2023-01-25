@@ -1,17 +1,20 @@
 package app.database;
 
+import app.controller.LoginController;
 import app.model.Task;
 import app.model.User;
 
 import java.sql.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class DatabaseHandler extends Configs {
     Connection dbConnection;
 
     public Connection getDbConnection() throws SQLException {
         String connectString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+
         dbConnection = DriverManager.getConnection(connectString, dbUser, dbPass);
+
         return dbConnection;
     }
 
@@ -116,19 +119,36 @@ public class DatabaseHandler extends Configs {
         }
     }
 
-    public int getAllTasksForToday(int userid) throws SQLException {
-        String query = "SELECT COUNT(*) FROM " + Const.TASKS_TABLE + " WHERE " + Const.USERS_ID + "=?" + " AND " + Const.TASKS_DATE + ">=?";
+    public int getAllTasksForToday() throws SQLException {
+        int counter = 0;
+        String query = "SELECT * FROM " + Const.TASKS_TABLE + " WHERE " + Const.USERS_ID + "=?";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setInt(1, userid);
-        preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));  //Minus plus
+        preparedStatement.setInt(1, LoginController.getUserId());
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            return resultSet.getInt(1);
+            if (resultSet.getTimestamp(4).toLocalDateTime().toLocalDate().equals(LocalDate.now())) {
+                counter++;
+            }
         }
-        return resultSet.getInt(1);
+        return counter;
+    }
+
+    public int getUsersCountByUsername(String username) {
+        String query = "SELECT COUNT(*) FROM " + Const.USERS_TABLE + " WHERE " + Const.USERS_USERNAME + "=?";
+        try {
+            PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet count = preparedStatement.executeQuery();
+            while (count.next()) {
+                return count.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 

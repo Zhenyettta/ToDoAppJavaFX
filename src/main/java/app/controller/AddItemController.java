@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -41,6 +42,7 @@ public class AddItemController {
     @FXML
     void initialize() throws SQLException {
         getTaskCount();
+
         viewTasksButton.setOnMouseClicked(event -> {
             viewTasksButton.getScene().getWindow().hide();
 
@@ -54,6 +56,7 @@ public class AddItemController {
             Parent parent = loader.getRoot();
             Stage stage = new Stage();
             stage.setScene(new Scene(parent));
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/app/assets/todo_icon.png"))));
             stage.show();
         });
 
@@ -87,9 +90,7 @@ public class AddItemController {
 
             try {
                 AnchorPane formPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/app/view/addItemForm.fxml")));
-
                 AddItemController.userId = getUserId();
-
 
                 FadeTransition rootTransition = new FadeTransition(Duration.millis(1000), formPane);
                 rootTransition.setFromValue(0f);
@@ -97,21 +98,19 @@ public class AddItemController {
                 rootTransition.setCycleCount(1);
                 rootTransition.setAutoReverse(false);
                 rootTransition.play();
-
                 rootAnchorPane.getChildren().setAll(formPane);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         });
 
     }
 
     private void getTaskCount() throws SQLException {
         DatabaseHandler databaseHandler = new DatabaseHandler();
-        int count = databaseHandler.getAllTasksForToday(userId);
+        int count = databaseHandler.getAllTasksForToday();
         if (count != 0) {
-            noTaskLabel.setText("You have " + count + " tasks");
+            noTaskLabel.setText("You have " + count + " tasks for today");
         }
     }
 

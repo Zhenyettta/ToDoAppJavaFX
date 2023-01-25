@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,11 +21,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class AddItemFormController {
-
-
-    private DatabaseHandler databaseHandler;
-    private int taskNumber;
-
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -43,6 +39,8 @@ public class AddItemFormController {
 
     @FXML
     private TextField taskField;
+    private DatabaseHandler databaseHandler;
+    private int taskNumber;
 
     @FXML
     void initialize() {
@@ -53,8 +51,8 @@ public class AddItemFormController {
             Timestamp timestamp = Timestamp.valueOf(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
 
-            if (!taskField.getText().equals("")) {
-                Task task = new Task(AddItemController.userId, timestamp, descriptionField.getText(), taskField.getText());
+            if (!taskField.getText().trim().equals("")) {
+                Task task = new Task(AddItemController.userId, timestamp, descriptionField.getText().trim(), taskField.getText().trim());
                 databaseHandler.insertTask(task);
 
                 todosButton.setVisible(true);
@@ -83,6 +81,7 @@ public class AddItemFormController {
                     Parent parent = loader.getRoot();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(parent));
+                    stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/app/assets/todo_icon.png"))));
                     stage.show();
                 });
             }

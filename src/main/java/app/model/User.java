@@ -22,10 +22,6 @@ public class User {
         this.gender = gender;
     }
 
-    public User() {
-
-    }
-
     public String getFirstName() {
         return firstName;
     }

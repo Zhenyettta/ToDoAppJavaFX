@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.animations.Shaker;
 import app.database.DatabaseHandler;
 import app.model.User;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -22,8 +24,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SignupController {
     @FXML
     private Pane pane;
-    @FXML
-    private Pane pane1;
 
     @FXML
     private ResourceBundle resources;
@@ -54,29 +54,32 @@ public class SignupController {
 
     @FXML
     private TextField signUpUsername;
+    private DatabaseHandler databaseHandler;
+
 
     @FXML
     void initialize() {
+        databaseHandler = new DatabaseHandler();
         AtomicBoolean checkMale = new AtomicBoolean(true);
         AtomicBoolean checkFemale = new AtomicBoolean(true);
 
 
         signUpButton.setOnAction(event -> {
-            createUser();
+            String name = signUpFirstName.getText().trim();
+            String lastName = signUpLastName.getText().trim();
+            String userName = signUpUsername.getText().trim();
+            String password = signUpPassword.getText().trim();
+            String location = signUpLocation.getText().trim();
 
-            signUpButton.getScene().getWindow().hide();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/app/view/login.fxml"));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            if (databaseHandler.getUsersCountByUsername(signUpUsername.getText().trim()) > 0) {
+                Shaker shaker = new Shaker(signUpUsername);
+                shaker.shake();
             }
-            Parent parent = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(parent));
-            stage.show();
-
+            if (name.equals("") || lastName.equals("") || userName.equals("") || password.equals("") || location.equals("")) {
+                failSignUp();
+            } else if (databaseHandler.getUsersCountByUsername(signUpUsername.getText().trim()) == 0) {
+                createUser();
+            }
         });
         checkBoxes(checkMale, signUpCheckBoxMale, signUpCheckBoxFemale);
         checkBoxes(checkFemale, signUpCheckBoxFemale, signUpCheckBoxMale);
@@ -100,32 +103,38 @@ public class SignupController {
 
     private void createUser() {
         DatabaseHandler databaseHandler = new DatabaseHandler();
-
-        String name = signUpFirstName.getText();
-        String lastName = signUpLastName.getText();
-        String userName = signUpUsername.getText();
-        String password = signUpPassword.getText();
-        String location = signUpLocation.getText();
+        String name = signUpFirstName.getText().trim();
+        String lastName = signUpLastName.getText().trim();
+        String userName = signUpUsername.getText().trim();
+        String password = signUpPassword.getText().trim();
+        String location = signUpLocation.getText().trim();
 
         String gender = "";
         if (signUpCheckBoxMale.isSelected()) gender = "Male";
         else gender = "Female";
 
-        if (name.equals("") || lastName.equals("") || userName.equals("") || password.equals("") || location.equals("")) {
 
-            ImageView imageView = new ImageView(String.valueOf(getClass().getResource("/app/assets/icon_fail.png")));
-            ImageView imageView1 = new ImageView(String.valueOf(getClass().getResource("/app/assets/fill.png")));
+        User user = new User(name, lastName, userName, password, location, gender);
+        databaseHandler.signUpUser(user);
 
-            pane.getChildren().add(imageView);
-            pane1.getChildren().add(imageView1);
-
-
-        } else {
-
-            User user = new User(name, lastName, userName, password, location, gender);
-            databaseHandler.signUpUser(user);
+        signUpButton.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/app/view/login.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(parent));
+        stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/app/assets/todo_icon.png"))));
+        stage.show();
     }
 
+    private void failSignUp() {
+        ImageView imageView = new ImageView(String.valueOf(getClass().getResource("/app/assets/icon_fail.png")));
+        pane.getChildren().add(imageView);
+    }
 
 }

@@ -10,21 +10,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
 
 public class ListController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private ListView<Task> listTask;
@@ -62,20 +54,14 @@ public class ListController {
             task.setDescription(myResult.getString("description"));
             tasks.add(task);
         }
-
         listTask.setItems(tasks);
         listTask.setCellFactory(CellController -> new CellController());
-
-        listSaveTaskButton.setOnAction(event -> {
-            addNewTask();
-
-        });
-
+        listSaveTaskButton.setOnAction(event -> addNewTask());
     }
 
     public void addNewTask() {
 
-        if (!listTaskField.getText().equals("")) {
+        if (!listTaskField.getText().trim().equals("")) {
             Task myNewTask = new Task();
             myNewTask.setTask(listTaskField.getText().trim());
             myNewTask.setDescription(listDescriptionField.getText().trim());
@@ -90,7 +76,7 @@ public class ListController {
             listTaskField.setText("");
             listDescriptionField.setText("");
 
-            tasks.add(0,myNewTask);
+            tasks.add(0, myNewTask);
             try {
                 initialize();
             } catch (SQLException e) {

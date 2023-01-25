@@ -14,19 +14,11 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 public class LoginController {
-    private int userId;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+    private static int userId;
 
     @FXML
     private Button loginButton;
@@ -46,13 +38,10 @@ public class LoginController {
 
         loginButton.setOnAction(event -> {
             databaseHandler = new DatabaseHandler();
-            String loginText = loginUsername.getText().trim();
-            String loginPwd = loginPassword.getText().trim();
-            User user = new User();
-            user.setUserName(loginText);
-            user.setPassword(loginPwd);
+            String loginUsr = this.loginUsername.getText().trim();
+            String loginPsw = loginPassword.getText().trim();
 
-
+            User user = new User(loginUsr, loginPsw);
             ResultSet resultSet = databaseHandler.getUser(user);
 
             int counter = 0;
@@ -66,11 +55,10 @@ public class LoginController {
                 if (counter == 1) {
                     showAddItemScreen();
                 } else {
-                    Shaker usernameShaker = new Shaker(loginUsername);
+                    Shaker usernameShaker = new Shaker(this.loginUsername);
                     Shaker passwordShaker = new Shaker(loginPassword);
                     usernameShaker.shake();
                     passwordShaker.shake();
-
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -80,7 +68,6 @@ public class LoginController {
 
         loginSignUpButton.setOnAction(event -> {
             loginSignUpButton.getScene().getWindow().hide(); //I can use it on any item
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/app/view/signup.fxml"));
 
@@ -94,14 +81,12 @@ public class LoginController {
             Stage stage = new Stage();
             stage.setScene(new Scene(parent));
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/app/assets/todo_icon.png"))));
-
             stage.showAndWait();
         });
     }
 
     private void showAddItemScreen() {
         loginSignUpButton.getScene().getWindow().hide(); //I can use it on any item
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/app/view/addItem.fxml"));
 
@@ -111,15 +96,17 @@ public class LoginController {
             throw new RuntimeException(e);
         }
 
-        Parent parent = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(parent));
-
         AddItemController addItemController = loader.getController();
         addItemController.setUserId(userId);
 
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(parent));
+        stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/app/assets/todo_icon.png"))));
         stage.showAndWait();
     }
 
-
+    public static int getUserId() {
+        return userId;
+    }
 }

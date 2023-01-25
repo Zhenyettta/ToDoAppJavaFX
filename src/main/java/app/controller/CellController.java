@@ -32,12 +32,6 @@ public class CellController extends ListCell<Task> {
     private FXMLLoader fxmlLoader;
     private DatabaseHandler databaseHandler;
 
-    @FXML
-    void initialize() {
-
-
-    }
-
     @Override
     protected void updateItem(Task myTask, boolean b) {
         super.updateItem(myTask, b);
@@ -57,12 +51,12 @@ public class CellController extends ListCell<Task> {
                 }
             }
             taskLabel.setText(myTask.getTask());
-            dateLabel.setText(myTask.getDateCreated().toString().replaceAll(".0$",""));
+            dateLabel.setText(myTask.getDateCreated().toString().replaceAll(".0$", ""));
             descriptionLabel.setText(myTask.getDescription());
 
             int taskId = myTask.getTaskId();
 
-            deleteButton.setOnMouseClicked(event-> {
+            deleteButton.setOnMouseClicked(event -> {
                 getListView().getItems().remove(getItem());
                 databaseHandler = new DatabaseHandler();
                 databaseHandler.deleteTask(AddItemController.userId, taskId);

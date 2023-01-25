@@ -1,4 +1,4 @@
-module app.todoappjavafx {
+module app {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
