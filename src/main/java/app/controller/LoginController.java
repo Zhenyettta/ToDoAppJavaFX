@@ -49,8 +49,6 @@ public class LoginController {
                 while (resultSet.next()) {
                     counter++;
                     userId = resultSet.getInt("userid");
-                    String name = resultSet.getString("firstName");
-                    System.out.println(name);
                 }
                 if (counter == 1) {
                     showAddItemScreen();

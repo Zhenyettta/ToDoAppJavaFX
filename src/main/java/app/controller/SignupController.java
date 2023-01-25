@@ -65,11 +65,11 @@ public class SignupController {
 
 
         signUpButton.setOnAction(event -> {
-            String name = signUpFirstName.getText().trim();
-            String lastName = signUpLastName.getText().trim();
-            String userName = signUpUsername.getText().trim();
-            String password = signUpPassword.getText().trim();
-            String location = signUpLocation.getText().trim();
+            String name = signUpFirstName.getText().trim();    //[A-Za-z]
+            String lastName = signUpLastName.getText().trim(); //[A-Za-z]
+            String userName = signUpUsername.getText().trim(); //[A-Za-z]{1,20}
+            String password = signUpPassword.getText().trim(); //^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$
+            String location = signUpLocation.getText().trim(); //[A-Za-z]
 
             if (databaseHandler.getUsersCountByUsername(signUpUsername.getText().trim()) > 0) {
                 Shaker shaker = new Shaker(signUpUsername);
@@ -83,8 +83,6 @@ public class SignupController {
         });
         checkBoxes(checkMale, signUpCheckBoxMale, signUpCheckBoxFemale);
         checkBoxes(checkFemale, signUpCheckBoxFemale, signUpCheckBoxMale);
-
-
     }
 
     private void checkBoxes(AtomicBoolean checkMale, CheckBox signUpCheckBoxMale, CheckBox signUpCheckBoxFemale) { //Java AutoDuplicate

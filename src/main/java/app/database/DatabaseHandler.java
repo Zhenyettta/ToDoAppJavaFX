@@ -12,7 +12,6 @@ public class DatabaseHandler extends Configs {
 
     public Connection getDbConnection() throws SQLException {
         String connectString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
-
         dbConnection = DriverManager.getConnection(connectString, dbUser, dbPass);
 
         return dbConnection;
@@ -100,8 +99,6 @@ public class DatabaseHandler extends Configs {
     }
 
     public void insertTask(Task task) {
-
-
         String insert = "INSERT into " + Const.TASKS_TABLE + "(" + Const.USERS_ID + "," + Const.TASKS_DATE + ","
                 + Const.TASKS_DESCRIPTION + "," + Const.TASKS_TASK + ")" + "VALUES(?,?,?,?)";
 
@@ -142,6 +139,7 @@ public class DatabaseHandler extends Configs {
             PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
             preparedStatement.setString(1, username);
             ResultSet count = preparedStatement.executeQuery();
+
             while (count.next()) {
                 return count.getInt(1);
             }

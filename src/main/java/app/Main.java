@@ -17,7 +17,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image(String.valueOf(getClass().getResource("/app/assets/todo_icon.png"))));
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {
