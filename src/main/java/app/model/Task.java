@@ -6,7 +6,6 @@ public class Task {
     private int userId;
     private int taskId;
 
-
     private Timestamp dateCreated;
     private String description;
     private String task;

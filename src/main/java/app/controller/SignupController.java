@@ -65,11 +65,11 @@ public class SignupController {
 
 
         signUpButton.setOnAction(event -> {
-            String name = signUpFirstName.getText().trim();    //[A-Za-z]
-            String lastName = signUpLastName.getText().trim(); //[A-Za-z]
-            String userName = signUpUsername.getText().trim(); //[A-Za-z]{1,20}
-            String password = signUpPassword.getText().trim(); //^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$
-            String location = signUpLocation.getText().trim(); //[A-Za-z]
+            String name = signUpFirstName.getText().trim();    //   [A-Za-z]
+            String lastName = signUpLastName.getText().trim(); //   [A-Za-z]
+            String userName = signUpUsername.getText().trim(); //   [A-Za-z]{1,20}
+            String password = signUpPassword.getText().trim(); //   ^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$
+            String location = signUpLocation.getText().trim(); //   [A-Za-z]
 
             if (databaseHandler.getUsersCountByUsername(signUpUsername.getText().trim()) > 0) {
                 Shaker shaker = new Shaker(signUpUsername);
