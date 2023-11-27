@@ -1,9 +1,9 @@
 package app.database;
 
 public class Configs {
-    protected String dbHost = "192.168.0.42";
-    protected String dbPort = "3306";
-    protected String dbUser = "userTodo";
-    protected String dbPass = "12345678+";
-    protected String dbName = "todo";
+    protected String dbHost = "localhost";
+    protected String dbPort = "5432";
+    protected String dbUser = "postgres";
+    protected String dbPass = "Lyalyalyalya1+";
+    protected String dbName = "ToDo";
 }

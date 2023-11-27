@@ -11,7 +11,7 @@ public class DatabaseHandler extends Configs {
     Connection dbConnection;
 
     public Connection getDbConnection() throws SQLException {
-        String connectString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+        String connectString = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
         dbConnection = DriverManager.getConnection(connectString, dbUser, dbPass);
 
         return dbConnection;
